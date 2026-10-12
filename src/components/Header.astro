@@ -1,0 +1,54 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function current(href: string) {
+  return path === href ? "page" : undefined;
+}
+---
+
+<header class="site-header">
+  <div class="nav">
+    <a class="brand" href="/" aria-label="Creative MK Studios, home">
+      <span class="mark" aria-hidden="true"></span>
+      <span>CreativeMKStudios</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+      <span class="bars" aria-hidden="true"><span></span><span></span></span>
+      <span class="sr-only">Menu</span>
+    </button>
+    <nav id="primary-nav" class="nav-links" aria-label="Primary">
+      <a href="/#work">What we do</a>
+      <a href="/pricing" aria-current={current("/pricing")}>Pricing</a>
+      <a href="/about" aria-current={current("/about")}>About</a>
+    </nav>
+    <a class="cta" href="/contact" aria-current={current("/contact")}>Let's talk</a>
+  </div>
+</header>
+
+<script>
+  document.documentElement.classList.add("js");
+  const button = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.querySelector<HTMLElement>("#primary-nav");
+
+  function setOpen(open: boolean) {
+    button?.setAttribute("aria-expanded", String(open));
+    nav?.classList.toggle("is-open", open);
+    const label = button?.querySelector(".sr-only");
+    if (label) label.textContent = open ? "Close menu" : "Menu";
+  }
+
+  button?.addEventListener("click", () => {
+    setOpen(button.getAttribute("aria-expanded") !== "true");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && button?.getAttribute("aria-expanded") === "true") {
+      setOpen(false);
+      button.focus();
+    }
+  });
+
+  nav?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setOpen(false));
+  });
+</script>

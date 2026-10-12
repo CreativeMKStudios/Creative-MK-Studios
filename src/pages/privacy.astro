@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { breadcrumb, graph, site } from "../data/site";
+
+const title = "Privacy Notice | Creative MK Studios";
+const description =
+  "How Creative MK Studios uses your name and email if you write to George Childs Gatty. This site does not use tracking cookies.";
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "Privacy", path: "/privacy" },
+  ]),
+]);
+---
+
+<Base title={title} description={description} path="/privacy" jsonLd={jsonLd}>
+  <PageIntro
+    title="Privacy"
+    lede="This notice says what we do with your name and email if you write to us."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "Privacy" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap stack">
+      <p class="measure">{site.founder} trades as {site.name}. The email address is {site.email}.</p>
+      <h2>What we collect</h2>
+      <p class="measure">If you email us, we receive your email address and whatever you write. The contact form does not store the message on this website. It opens your email app so you can send it to us.</p>
+      <h2>Why we use it</h2>
+      <p class="measure">We use it to reply, because you asked us to. If we work together, we use your details to do the work and to keep records we are required to keep.</p>
+      <h2>Cookies</h2>
+      <p class="measure">This site does not set tracking cookies. It does not use ad tools or analytics. A cookie banner is not needed.</p>
+      <h2>How long we keep it</h2>
+      <p class="measure">We keep emails for as long as we need them to do the work and to meet legal duties. You can ask us to delete them.</p>
+      <h2>Your rights</h2>
+      <p class="measure">You can ask what we hold about you. You can ask us to correct it or delete it. Email {site.email}.</p>
+      <p class="measure">
+        You can also complain to the ICO. The complaint page opens in a new tab:
+        <a class="text-link" href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">ico.org.uk/make-a-complaint</a>.
+      </p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,129 @@
+---
+import Base from "../layouts/Base.astro";
+import { graph, money, monthly, site, yearly } from "../data/site";
+
+const examplePages = 5;
+const title = "Web Design in Milton Keynes and Bedfordshire";
+const description =
+  "Creative MK Studios builds websites for small businesses in Milton Keynes and Bedfordshire. Pay by the page, once a year. No build fee. Small edits included.";
+---
+
+<Base title={title} description={description} path="/" jsonLd={graph()}>
+  <section class="hero">
+    <div class="fan" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="tone-blue">Milton Keynes</span>
+        <span class="tone-violet">web design</span>
+        <span class="tone-amber">Bedfordshire</span>
+      </p>
+      <h1>Get found on Google.</h1>
+      <p class="sub">
+        Websites for small firms in Milton Keynes and Bedfordshire. Pay by the page. No build fee.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <h2>A site Google can read.</h2>
+      <p class="lede">
+        People search, then they call or visit. The pages should make that easy.
+      </p>
+      <p class="towns">We do not promise the number one spot. No one honest can.</p>
+      <div class="work-grid">
+        <article>
+          <h3>Design and build</h3>
+          <p>
+            A clear site for your shop, trade, or service. It works on a phone. It loads fast.
+          </p>
+        </article>
+        <article>
+          <h3>Words in the right places</h3>
+          <p>
+            We name what you do and the towns you cover. Each page has one job, a title, and headings Google can follow.
+          </p>
+        </article>
+        <article>
+          <h3>Small edits included</h3>
+          <p>
+            New wording, photos, prices, and opening hours are included while your plan is active.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="approach">
+    <div class="wrap">
+      <h2>How the work runs.</h2>
+      <ol class="steps">
+        <li>
+          <span>1</span>
+          <h3>Tell us what you do</h3>
+          <p>You email us. Say what you sell and which towns you cover.</p>
+        </li>
+        <li>
+          <span>2</span>
+          <h3>Agree the pages</h3>
+          <p>We list the pages and the yearly price before we build.</p>
+        </li>
+        <li>
+          <span>3</span>
+          <h3>Pay for the year</h3>
+          <p>You pay once. There is no separate build bill.</p>
+        </li>
+        <li>
+          <span>4</span>
+          <h3>Launch, then edit</h3>
+          <p>We put the site online and connect your domain. Small changes stay included.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="area">
+    <div class="wrap">
+      <h2>Milton Keynes and Bedfordshire.</h2>
+      <p class="lede">
+        This is the area we work in. Milton Keynes is in Buckinghamshire. Bedfordshire sits beside it. Many firms serve both.
+      </p>
+      <p class="towns">
+        We write for the towns you actually cover. That may be Bletchley, Wolverton, Newport Pagnell, Bedford, Luton, Leighton Buzzard, Ampthill, or Flitwick.
+      </p>
+      <div class="link-row">
+        <a class="text-link" href="/web-design-milton-keynes">Web design in Milton Keynes</a>
+        <a class="text-link" href="/web-design-bedfordshire">Web design in Bedfordshire</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="price">
+    <div class="wrap rate-block">
+      <div>
+        <p class="rate-figure">{money(site.rate)}</p>
+        <p class="rate-caption">per page each month</p>
+      </div>
+      <div class="stack">
+        <h2>One rate. It follows the pages.</h2>
+        <p>
+          You pay for 12 months at the start. A {examplePages}-page site is {money(monthly(examplePages))} a month. That is {money(yearly(examplePages))} for the year.
+        </p>
+        <p>Hosting is included. Small changes are included. There is no upfront build cost.</p>
+        <p><a class="text-link" href="/pricing">Read the pricing</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="george">
+    <div class="wrap">
+      <h2 class="about-name">{site.founder}</h2>
+      <p class="lede">
+        I run {site.name}. I build websites for small businesses that want to be found on Google.
+      </p>
+      <div class="link-row">
+        <a class="text-link" href="/about">About George</a>
+      </div>
+    </div>
+  </section>
+</Base>
