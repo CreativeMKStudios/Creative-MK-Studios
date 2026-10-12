@@ -1,0 +1,154 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import {
+  breadcrumb,
+  faqGraph,
+  graph,
+  money,
+  monthly,
+  pricingFaqs,
+  site,
+  yearly,
+} from "../data/site";
+
+const title = "Website Pricing by the Page | Creative MK Studios";
+const description =
+  "£25 per page each month, paid once a year. No upfront build cost. Hosting and small website changes are included for Milton Keynes and Bedfordshire firms.";
+const examples = [1, 4, 5, 8, 10];
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "Pricing", path: "/pricing" },
+  ]),
+  faqGraph(),
+]);
+---
+
+<Base title={title} description={description} path="/pricing" jsonLd={jsonLd}>
+  <PageIntro
+    title="Pricing by the page."
+    lede="The monthly rate depends on how many pages you need. You pay it once a year. There is no build fee."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "Pricing" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap">
+      <div class="stack">
+        <p class="measure">
+          The rate is {money(site.rate)} per page each month. A page is one address on the site with its own job. Home counts. So does a services page, an about page, a contact page, and a town page.
+        </p>
+        <p class="measure">Most local firms need 4 to 6 pages. A common set is home, services, about, contact, and one page for the towns you cover.</p>
+      </div>
+
+      <form class="calc" data-rate={site.rate}>
+        <div class="field">
+          <label for="page-count">Number of pages</label>
+          <input id="page-count" name="pages" type="number" min="1" max="30" value="5" inputmode="numeric" />
+        </div>
+        <p class="calc-result" aria-live="polite">
+          <span id="calc-month">{money(monthly(5))}</span> a month. You pay <span id="calc-year">{money(yearly(5))}</span> for the year.
+        </p>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Examples at {money(site.rate)} per page each month, paid once a year.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pages</th>
+              <th scope="col">Each month</th>
+              <th scope="col">You pay for the year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              examples.map((pages) => (
+                <tr class:list={[{ "is-example": pages === 5 }]}>
+                  <th scope="row">{pages}</th>
+                  <td>{money(monthly(pages))}</td>
+                  <td>{money(yearly(pages))}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="block">
+        <h2>Included</h2>
+        <ul class="plain-list">
+          <li>Design and build of the pages we agree</li>
+          <li>Hosting, so the site stays online</li>
+          <li>A secure padlock in the browser</li>
+          <li>Page titles, headings, a sitemap, and code that tells Google your name, service, and area</li>
+          <li>Advice on what to put on your Google listing</li>
+          <li>Small edits while the plan is active</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Not included</h2>
+        <ul class="plain-list">
+          <li>New pages after launch. These raise the page count and the yearly price.</li>
+          <li>An online shop or card payments</li>
+          <li>Google Ads or other paid ads</li>
+          <li>A full logo and brand pack</li>
+          <li>Blog posts on a set schedule</li>
+        </ul>
+      </div>
+
+      <div class="block stack">
+        <h2>Your domain</h2>
+        <p class="measure">You buy the domain in your own name. We connect it. If you already have one, we use that.</p>
+      </div>
+
+      <div class="block stack">
+        <h2>What you keep</h2>
+        <p class="measure">This plan is a hosted website. It is not a one-off build you take away on day one.</p>
+        <p class="measure">You own your words, your photos, and your domain if you bought it. The design and the code stay with {site.name}.</p>
+        <p class="measure">If you do not renew, we take the site offline when the paid year ends. If you want to move later, email me and we will agree what we can hand over.</p>
+      </div>
+
+      <div class="block">
+        <h2>Questions</h2>
+        <div class="faq">
+          {
+            pricingFaqs.map((item) => (
+              <div>
+                <h3>{item.q}</h3>
+                <p class="measure">{item.a}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".calc");
+  const input = document.querySelector<HTMLInputElement>("#page-count");
+  const month = document.querySelector<HTMLElement>("#calc-month");
+  const year = document.querySelector<HTMLElement>("#calc-year");
+  const rate = Number(root?.dataset.rate || "25");
+
+  const format = (value: number) =>
+    new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  function render() {
+    const raw = Number(input?.value);
+    const pages = Math.min(30, Math.max(1, Number.isFinite(raw) ? raw : 1));
+    if (month) month.textContent = format(rate * pages);
+    if (year) year.textContent = format(rate * pages * 12);
+  }
+
+  input?.addEventListener("input", render);
+</script>

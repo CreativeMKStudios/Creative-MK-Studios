@@ -1,0 +1,94 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { breadcrumb, graph, site } from "../data/site";
+
+const title = "Contact Creative MK Studios";
+const description =
+  "Email creativemkstudios@gmail.com to talk about a website for your Milton Keynes or Bedfordshire business. Say what you do and how many pages you need.";
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ]),
+  {
+    "@type": "ContactPage",
+    url: `${site.url}/contact`,
+    name: "Contact Creative MK Studios",
+    mainEntity: { "@id": `${site.url}/#studio` },
+  },
+]);
+---
+
+<Base title={title} description={description} path="/contact" jsonLd={jsonLd}>
+  <PageIntro
+    title="Let's talk."
+    lede="Say what you do, where you work, and how many pages you think you need."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "Contact" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap">
+      <a class="email-display" href={`mailto:${site.email}`}>{site.email}</a>
+      <form id="contact-form" class="form" data-email={site.email}>
+        <div class="field">
+          <label for="name">Your name (needed)</label>
+          <input id="name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="email">Your email (needed)</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="business">Business name</label>
+          <input id="business" name="business" type="text" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="town">Town</label>
+          <input id="town" name="town" type="text" autocomplete="address-level2" />
+        </div>
+        <div class="field">
+          <label for="pages">How many pages</label>
+          <input id="pages" name="pages" type="number" min="1" max="40" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label for="message">What do you need? (needed)</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button class="cta" type="submit">Open email</button>
+        <p class="status" id="form-status" role="status"></p>
+      </form>
+    </div>
+  </div>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const status = document.querySelector<HTMLElement>("#form-status");
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const data = new FormData(form);
+    const email = form.dataset.email || "creativemkstudios@gmail.com";
+    const name = String(data.get("name") || "").trim();
+    const lines = [
+      `Name: ${name}`,
+      `Email: ${String(data.get("email") || "").trim()}`,
+      `Business: ${String(data.get("business") || "").trim()}`,
+      `Town: ${String(data.get("town") || "").trim()}`,
+      `Pages: ${String(data.get("pages") || "").trim()}`,
+      "",
+      String(data.get("message") || "").trim(),
+    ];
+    const href = `mailto:${email}?subject=${encodeURIComponent(`Website enquiry from ${name}`)}&body=${encodeURIComponent(lines.join("\n"))}`;
+
+    if (status) {
+      status.textContent = `Your email app should open with this message. If it does not, email ${email}.`;
+    }
+    window.location.href = href;
+  });
+</script>

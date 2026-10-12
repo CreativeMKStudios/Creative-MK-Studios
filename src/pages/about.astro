@@ -1,0 +1,39 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { breadcrumb, graph, site } from "../data/site";
+
+const title = "About George Childs Gatty | Creative MK Studios";
+const description =
+  "George Childs Gatty runs Creative MK Studios. He builds websites for small businesses in Milton Keynes and Bedfordshire so they can be found on Google.";
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+  ]),
+]);
+---
+
+<Base title={title} description={description} path="/about" jsonLd={jsonLd}>
+  <PageIntro
+    title={site.founder}
+    lede="I build websites for small businesses in Milton Keynes and Bedfordshire."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "About" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap stack">
+      <p class="measure">I am George Childs Gatty. I run {site.name}. The studio name is also written {site.shortName}.</p>
+      <p class="measure">I focus on websites that help small businesses get found on Google. I design the pages, write them in plain words, and add the setup Google needs.</p>
+      <p class="measure">That setup is simple to name. Each page has a title and headings. The site has a sitemap. The code names the business, the service, and the towns you cover. The pages load fast on a phone.</p>
+      <p class="measure">I work with customers in Bedfordshire and the Milton Keynes area. Milton Keynes is in Buckinghamshire, next to Bedfordshire. If your customers are in these places, the site should say so.</p>
+      <p class="measure">I do not promise the top spot on Google. I make the site easy to read for a customer and clear for Google.</p>
+      <p class="measure">
+        Email me at <a class="text-link" href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+      <p><a class="text-link" href="/pricing">Read the pricing</a></p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,57 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { breadcrumb, graph, money, site } from "../data/site";
+
+const title = "Web Design in Milton Keynes | Creative MK Studios";
+const description =
+  "Websites for small businesses in Milton Keynes, Bletchley, Wolverton, and Newport Pagnell. Clear pages for Google. Pay by the page, once a year. No build fee.";
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "Milton Keynes", path: "/web-design-milton-keynes" },
+  ]),
+  {
+    "@type": "Service",
+    name: "Web design in Milton Keynes",
+    serviceType: "Web design",
+    url: `${site.url}/web-design-milton-keynes`,
+    provider: { "@id": `${site.url}/#studio` },
+    areaServed: { "@type": "City", name: "Milton Keynes" },
+    description:
+      "Website design for small businesses in Milton Keynes. Pages name the estates and towns you cover.",
+  },
+]);
+---
+
+<Base title={title} description={description} path="/web-design-milton-keynes" jsonLd={jsonLd}>
+  <PageIntro
+    title="Web design in Milton Keynes."
+    lede="Websites for small businesses in Milton Keynes, written so Google can tell what you do and where you work."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "Milton Keynes" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap stack">
+      <p class="measure">{site.name} builds websites for small firms in Milton Keynes. A customer should be able to see what you do and how to reach you without hunting.</p>
+      <p class="measure">Milton Keynes is not one high street. A firm in Central Milton Keynes does not serve the same streets as a firm in Bletchley, Wolverton, Stony Stratford, Newport Pagnell, Kingston, or Broughton. Your pages should name the places you actually cover.</p>
+      <h2>What we put on the site</h2>
+      <ul class="plain-list">
+        <li>A home page that says what you do and where</li>
+        <li>A services page in plain words</li>
+        <li>A contact page a customer can use today</li>
+        <li>Town and estate names you really serve</li>
+        <li>Page titles, a sitemap, and code that names your business and area</li>
+      </ul>
+      <p class="measure">We do not promise the first result. We build the site so search engines can read it, and so a person on a phone can act.</p>
+      <p class="measure">Milton Keynes is in Buckinghamshire. Many firms also cover Bedfordshire. If that is you, we say so on the site.</p>
+      <p class="measure">The price is {money(site.rate)} per page each month, paid once a year. There is no separate build fee. Small changes are included.</p>
+      <div class="link-row">
+        <a class="text-link" href="/web-design-bedfordshire">Web design in Bedfordshire</a>
+        <a class="text-link" href="/pricing">Read the pricing</a>
+      </div>
+    </div>
+  </div>
+</Base>

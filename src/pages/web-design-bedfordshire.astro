@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import { breadcrumb, graph, money, site } from "../data/site";
+
+const title = "Web Design in Bedfordshire | Creative MK Studios";
+const description =
+  "Websites for small businesses in Bedford, Luton, Dunstable, and Leighton Buzzard. Plain pages, local town names, and a yearly price based on page count.";
+const jsonLd = graph([
+  breadcrumb([
+    { name: "Home", path: "/" },
+    { name: "Bedfordshire", path: "/web-design-bedfordshire" },
+  ]),
+  {
+    "@type": "Service",
+    name: "Web design in Bedfordshire",
+    serviceType: "Web design",
+    url: `${site.url}/web-design-bedfordshire`,
+    provider: { "@id": `${site.url}/#studio` },
+    areaServed: { "@type": "AdministrativeArea", name: "Bedfordshire" },
+    description:
+      "Website design for small businesses in Bedfordshire. Pages name the towns you cover.",
+  },
+]);
+---
+
+<Base title={title} description={description} path="/web-design-bedfordshire" jsonLd={jsonLd}>
+  <PageIntro
+    title="Web design in Bedfordshire."
+    lede="Websites for small businesses across Bedfordshire, with clear pages for the towns you actually serve."
+    crumbs={[
+      { href: "/", label: "Home" },
+      { label: "Bedfordshire" },
+    ]}
+  />
+  <div class="page-body">
+    <div class="wrap stack">
+      <p class="measure">Bedfordshire is a wide county. A plumber in Bedford is not the same search as a cafe in Luton or a clinic in Leighton Buzzard. {site.name} writes pages that name the town, in normal words.</p>
+      <p class="measure">We work with businesses in Bedford, Kempston, Luton, Dunstable, Houghton Regis, Leighton Buzzard, Ampthill, Flitwick, Biggleswade, Sandy, and the towns around them.</p>
+      <h2>Three things a page should answer</h2>
+      <ul class="plain-list">
+        <li>What you do</li>
+        <li>Which towns you cover</li>
+        <li>How a customer reaches you today</li>
+      </ul>
+      <p class="measure">Luton and Bedford are not the same place, and Central Bedfordshire covers many smaller towns. We do not paste one block of text and swap the town name. Each page should match the work you do there.</p>
+      <p class="measure">Milton Keynes is next door. A lot of Bedfordshire firms also serve Milton Keynes. If you do, the site should say that in the open.</p>
+      <p class="measure">We design the site, host it, and include small edits. That means text, photos, prices, and opening hours. The price is {money(site.rate)} per page each month. You pay for the year at the start. There is no separate build fee.</p>
+      <div class="link-row">
+        <a class="text-link" href="/web-design-milton-keynes">Web design in Milton Keynes</a>
+        <a class="text-link" href="/pricing">Read the pricing</a>
+      </div>
+    </div>
+  </div>
+</Base>
